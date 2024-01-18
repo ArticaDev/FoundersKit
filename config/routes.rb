@@ -9,6 +9,8 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       get "hello" => "api#hello"
+      resources :opportunities
+      resources :customers
     end
   end
 
