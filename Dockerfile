@@ -10,4 +10,4 @@ RUN bundle install
 
 EXPOSE 3000 3000
 
-ENTRYPOINT [""]
+CMD bundle exec rails s -p 3000 -b '0.0.0.0'
