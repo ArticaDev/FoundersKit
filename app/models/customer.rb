@@ -5,5 +5,7 @@ class Customer
   field :phone, type: String
   field :email, type: String
 
-  has_many :opportunities
+  def opportunities
+    Opportunity.where(customer_email: email)
+  end
 end

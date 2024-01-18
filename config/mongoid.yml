@@ -14,7 +14,7 @@ production:
 development:
   clients:
     default:
-      uri: <%= ENV.fetch('MONGODB_URI', 'mongo://localhost:27017') %>
+      uri: <%= ENV.fetch('MONGODB_URI', 'mongodb://mongo:27017') %>
       options:
         retry_writes: false
   options:
@@ -23,7 +23,7 @@ development:
 test:
   clients:
     default:
-      uri: <%= ENV.fetch('MONGODB_URI', 'mongo://localhost:27017') %>
+      uri: <%= ENV.fetch('MONGODB_URI', 'mongodb://mongo:27017') %>
       options:
         read:
           mode: :primary
