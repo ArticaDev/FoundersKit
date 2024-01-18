@@ -63,7 +63,7 @@ module Api
 
         # Only allow a list of trusted parameters through.
         def opportunity_params
-          params.require(:opportunity).permit(:price, :customer_id, :notes, :stage, :won, :customer_email)
+          params.require(:opportunity).permit(:price, :customer_id, :notes, :stage, :won, :customer_email, :title)
         end
     end
   end 
