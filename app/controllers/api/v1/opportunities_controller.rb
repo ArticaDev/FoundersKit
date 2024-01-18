@@ -1,7 +1,7 @@
 module Api
   module V1
     class OpportunitiesController < ApplicationController
-      before_action :set_opportunity, only: %i[ show update destroy ]
+      before_action :set_opportunity, only: %i[ show update destroy add_note delete_note update_note ]
 
       # GET /opportunities
       def index
@@ -38,6 +38,21 @@ module Api
       # DELETE /opportunities/1
       def destroy
         @opportunity.destroy!
+      end
+
+      def add_note
+        @opportunity.notes.create!(content: params[:content])
+        render json: @opportunity
+      end
+
+      def update_note
+        @opportunity.notes.find(params[:note_id]).update!(content: params[:content])
+        render json: @opportunity
+      end
+
+      def delete_note
+        @opportunity.notes.find(params[:note_id]).destroy!
+        render json: @opportunity
       end
 
       private

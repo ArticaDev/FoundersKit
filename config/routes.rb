@@ -9,7 +9,13 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       get "hello" => "api#hello"
-      resources :opportunities
+      resources :opportunities do
+        member do
+          post "add_note"
+          delete "delete_note"
+          patch "update_note"
+        end
+      end
       resources :customers
     end
   end

@@ -1,6 +1,10 @@
 class Opportunity
   include Mongoid::Document
   include Mongoid::Timestamps
+
+  embeds_many :notes, class_name: 'OpportunityNote'
+
+  field :title, type: String
   field :price, type: Float
   field :notes, type: String
   field :stage, type: String, default: 'potential_customer'
