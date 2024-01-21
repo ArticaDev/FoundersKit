@@ -14,4 +14,8 @@ class Opportunity
   def customer
     Customer.find_by(email: customer_email)
   end
+
+  def user
+    customer.user
+  end
 end

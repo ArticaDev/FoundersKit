@@ -16,6 +16,7 @@ Rails.application.routes.draw do
           patch "update_note"
         end
       end
+      resources :users
       resources :customers
     end
   end
