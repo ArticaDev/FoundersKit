@@ -1,11 +1,13 @@
 module Api
   module V1
-    class OpportunitiesController < ApplicationController
+    class OpportunitiesController < ApiController
       before_action :set_opportunity, only: %i[ show update destroy add_note delete_note update_note ]
 
       # GET /opportunities
       def index
-        @opportunities = Opportunity.all
+        @opportunities = Opportunity.where.in(
+          customer_email: Customer.where(user: @user).pluck(:email)
+        ).all
 
         render json: @opportunities
       end

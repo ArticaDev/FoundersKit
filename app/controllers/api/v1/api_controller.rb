@@ -3,9 +3,14 @@
 module Api
     module V1
       class ApiController < ActionController::API
-        def hello 
-            render json: { message: "Hello World" }
-        end 
+        before_action :authenticate
+
+        private
+
+        def authenticate
+          user_email = request.headers['Authorization']
+          @user = User.find_by(email: user_email)
+        end
       end
     end
 end

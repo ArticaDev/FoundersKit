@@ -1,11 +1,11 @@
 module Api
   module V1
-    class CustomersController < ApplicationController
+    class CustomersController < ApiController
       before_action :set_customer, only: %i[ show update destroy ]
 
       # GET /customers
       def index
-        @customers = Customer.all
+        @customers = Customer.where(user: @user).all
 
         render json: @customers
       end
@@ -17,7 +17,9 @@ module Api
 
       # POST /customers
       def create
-        @customer = Customer.new(customer_params)
+        @customer = Customer.new(
+          customer_params.merge(user: @user)
+        )
 
         if @customer.save
           render json: @customer, status: :created
