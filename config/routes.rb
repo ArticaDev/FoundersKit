@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       get "hello" => "api#hello"
+      get "overview" => "opportunities#overview"
       resources :opportunities do
         member do
           post "add_note"
