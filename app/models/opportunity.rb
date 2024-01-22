@@ -10,6 +10,7 @@ class Opportunity
   field :stage, type: String, default: 'potential_customer'
   field :won, type: Mongoid::Boolean, default: false
   field :customer_email, type: String
+  field :date, type: Date
 
   def customer
     Customer.find_by(email: customer_email)
