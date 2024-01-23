@@ -11,6 +11,7 @@ class Opportunity
   field :won, type: Mongoid::Boolean, default: false
   field :customer_email, type: String
   field :date, type: Date
+  field :paid, type: Mongoid::Boolean, default: false
 
   def customer
     Customer.find_by(email: customer_email)
