@@ -39,6 +39,7 @@ module Api
 
       # DELETE /customers/1
       def destroy
+        @customer.opportunities.destroy_all
         @customer.destroy!
       end
 
