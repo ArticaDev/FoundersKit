@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       get "hello" => "api#hello"
-      get "overview" => "opportunities#overview"
+      get "overview" => "users#overview"
       resources :opportunities do
         member do
           post "add_note"
@@ -19,6 +19,10 @@ Rails.application.routes.draw do
       end
       resources :users
       resources :customers
+      resources :transactions do
+        post "summary", on: :collection
+      end
+      resources :inventory_items
     end
   end
 
