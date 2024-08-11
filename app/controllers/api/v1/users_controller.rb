@@ -1,6 +1,6 @@
 module Api
   module V1
-    class UsersController < ApplicationController
+    class UsersController < ApiController
       before_action :set_user, only: %i[ show update destroy ]
 
       # GET /users
@@ -10,6 +10,29 @@ module Api
         render json: @users
       end
 
+      def overview
+        opportunities = Opportunity.where.in(
+          customer_email: Customer.where(user: @user).pluck(:email)
+        ).all
+
+        won_opportunities = opportunities.where(won: true)
+        opportunities_revenue = won_opportunities.sum(:price)
+        incoming_revenue = opportunities.where(won: false).sum(:price)
+        sales = won_opportunities.count
+        customer_count = Customer.where(user: @user).count
+
+        other_incomes = Transaction.where(user: @user).where(type: 'Income').sum(:amount)
+        expenses = Transaction.where(user: @user).where(type: 'Expense').sum(:amount)
+        total_revenue = opportunities_revenue + other_incomes - expenses
+
+        render json: {
+          total_revenue:,
+          incoming_revenue:,
+          sales:,
+          customer_count:
+        }
+      end 
+
       # GET /users/1
       def show
         render json: @user
@@ -17,7 +40,9 @@ module Api
 
       # POST /users
       def create
-        @user = User.new(user_params)
+        @user = User.new(user_params.merge(
+          stages: DefaultStage.all
+        ))
 
         if @user.save
           render json: @user, status: :created

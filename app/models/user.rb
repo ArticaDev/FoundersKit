@@ -5,4 +5,6 @@ class User
   field :email, type: String
 
   has_many :customers
+  has_many :transactions
+
 end
