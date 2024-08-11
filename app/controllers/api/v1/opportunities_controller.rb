@@ -2,28 +2,12 @@ module Api
   module V1
     class OpportunitiesController < ApiController
       before_action :set_opportunity, only: %i[ show update destroy add_note delete_note update_note ]
-      before_action :set_customer_opportunities, only: %i[ index overview ]
+      before_action :set_customer_opportunities, only: %i[ index ]
 
       # GET /opportunities
       def index
         render json: @opportunities
       end
-
-      def overview
-        won_stages = %w[completed done]
-        won_opportunities = @opportunities.where.in(stage: won_stages)
-        total_revenue = won_opportunities.sum(:price)
-        incoming_revenue = @opportunities.where.not.in(stage: won_stages).sum(:price)
-        sales = won_opportunities.count
-        customer_count = Customer.where(user: @user).count
-
-        render json: {
-          total_revenue:,
-          incoming_revenue:,
-          sales:,
-          customer_count:
-        }
-      end 
 
       # GET /opportunities/1
       def show
@@ -43,7 +27,13 @@ module Api
 
       # PATCH/PUT /opportunities/1
       def update
-        if @opportunity.update(opportunity_params)
+        won_stages = %w[completed done]
+        
+        if won_stages.include?(opportunity_params[:stage]) && !@opportunity.won
+          extra_params = { won: true, won_date: Date.today }
+        end
+        
+        if @opportunity.update(opportunity_params.merge(extra_params || {}))
           render json: @opportunity
         else
           render json: @opportunity.errors, status: :unprocessable_entity
