@@ -49,6 +49,6 @@ module Founderskipt
       end
     end
 
-    config.hosts << "www.founderskitapi.articadev.com"
+    config.hosts << ENV['FRONTEND_URL']
   end
 end
